@@ -13,7 +13,6 @@ export const Home = () => {
                 </div>
                 <div className={styles.content}>
                     <Roomkind />
-                    {/* <Chat /> */}
                     <Outlet />
                 </div>
             </div>

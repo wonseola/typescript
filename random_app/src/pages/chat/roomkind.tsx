@@ -4,16 +4,21 @@ import styles from "./roomkind.module.scss"
 export const Roomkind = () => {
     return (
         <div className={styles.room}>
-            <div className={styles.random}>
-                <Link to="/random">
+            <Link to="/random" className={styles.link}>
+                <div className={styles.random}>
                     <h1>채팅 시작</h1>
-                </Link>
-            </div>
-            <div className={styles.roomfind}>
-                <Link to="/room">
+                </div>
+            </Link>
+            <Link to="/room" className={styles.link}>
+                <div className={styles.roomfind}>
                     <h1>방 찾기</h1>
-                </Link>
-            </div>
+                </div>
+            </Link>
+            <Link to="/chat" className={styles.link}>
+                <div className={styles.roomfind}>
+                    <h1>ddddddddddd</h1>
+                </div>
+            </Link>
         </div>
 
     )

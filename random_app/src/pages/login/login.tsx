@@ -8,8 +8,9 @@ import { useNavigate } from "react-router-dom";
 export const Login = () => {
 
     const [id, setId] = useState("");
-    // const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+
     const navi = useNavigate();
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {
@@ -17,10 +18,6 @@ export const Login = () => {
         } = e;
         if (name === "id") {
             setId(value);
-
-            // } else if (name === "password") {
-            //     setPassword(value);
-            // }
         };
     }
 
@@ -36,34 +33,49 @@ export const Login = () => {
         return avatarImages[randomIndex];
     };
 
+    function getRandomString(length: number) {
+        const characters = '0123456789';
+        let result = '';
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return result;
+    }
+    const num = getRandomString(6);
+
     const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setIsLoading(true);
         try {
-            const idd = id + "@random.mong";
-            const password = "aaaaaa";
-            const credentials = createUserWithEmailAndPassword(auth, idd, password);
-            await updateProfile((await credentials).user, {
+            const idd = id + "@" + num + ".mong";
+            const password = num;
+
+            const credentials = await createUserWithEmailAndPassword(auth, idd, password);
+            await updateProfile(credentials.user, {
                 displayName: id,
                 photoURL: getRandomAvatar(),
             });
             await signInWithEmailAndPassword(auth, idd, password);
+            setIsLoading(false);
             navi("/");
 
+
         } catch (e) {
+            setIsLoading(false);
             if (e instanceof FirebaseError) {
                 switch (e.code) {
-                    case "auth/weak-password":
-                        setError("비밀번호를 6자 이상으로 설정해주세여");
-                        break;
                     case "auth/email-already-in-use":
                         setError("사용중인 닉네임입니다");
+                        navi("/");
                         break;
                     default:
                         setError("오류가 발생했습니다.");
                 }
             }
-        };
+        }
     }
+
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.imgdiv}>
@@ -79,6 +91,7 @@ export const Login = () => {
                 {/* <input type="password" placeholder="비ㅁㄹ번호" value={password} name="password" onChange={onChange} required /> */}
                 <button>GO &rarr;</button>
             </form>
+            {isLoading && <p>로그인 중 입니당 ㄱㄷㄱㄷ</p>}
             {error && <p className={styles.error}>{error}</p>}
         </div>
     )

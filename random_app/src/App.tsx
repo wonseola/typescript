@@ -4,16 +4,18 @@ import styled, { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 import { Login } from "./pages/login/login";
 import ProtectedRoute from "./components/protected-route";
-import { Randomchat } from "./pages/random/random";
-import { Room } from "./pages/room/room";
+import { RandomChat } from "./pages/chat/random/random";
+import { Welcome } from "./pages/chat/welcome";
+import { Room } from "./pages/chat/room/room";
 import { Chat } from "./pages/chat/chat";
 
 const router = createBrowserRouter([
   {
-    path: "", element: <Home />, children: [
-      { path: "/", element: <Chat /> },
-      { path: "/random", element: <Randomchat /> },
+    path: "/", element: <ProtectedRoute><Home /></ProtectedRoute>, children: [
+      { path: "", element: <Welcome /> },
+      { path: "/random", element: <RandomChat /> },
       { path: "/room", element: <Room /> },
+      { path: "/chat", element: <Chat /> },
     ]
   },
   { path: "/login", element: <Login /> },

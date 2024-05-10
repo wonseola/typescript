@@ -1,18 +1,24 @@
 .chat {
-    display: grid;
-    grid-template-rows: 8fr 1fr;
+    display: flex;
+    flex-direction: column;
+    max-height: 80vh;
+    height: 80vh;
+    justify-content: space-between;
+    overflow-y: scroll;
 
     .chatview {
         padding: 3%;
+        overflow-y: scroll;
+        scroll-behavior: smooth;
 
         .messages {
             display: flex;
             flex-direction: column;
-            // gap: 10px;
 
             .name {
                 padding: 1% 0 1% 0;
                 max-width: max-content;
+                background-color: #7c7b7b77;
 
                 h1 {
                     font-size: .8rem;
@@ -36,7 +42,7 @@
     .chatinput {
         display: flex;
         align-items: center;
-        // justify-content: center;
+
 
         input {
             border: none;

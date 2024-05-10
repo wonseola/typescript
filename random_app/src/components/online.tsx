@@ -1,51 +1,39 @@
-import { useEffect, useState } from 'react';
+import { onDisconnect, onValue, ref, remove, set } from "firebase/database";
 import { auth, rtdb } from "../firebase";
-import { onDisconnect, onValue, ref, set } from "firebase/database";
-import { deleteUser } from 'firebase/auth';
+import { useEffect } from "react";
+
 
 export const Online = () => {
-    const user = auth.currentUser;
-    const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
+    const uid = auth.currentUser?.uid;
 
+    const isonline = () => {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                set(ref(rtdb, `status/online/${uid}`), true)
+                set(ref(rtdb, `status/chatting/${uid}`), false)
 
-
-    useEffect(() => {
-        const isUserOnline = async (displayName: string | null) => {
-            if (displayName) {
-                const userStatusRef = ref(rtdb, `/status/${displayName}`);
-                await set(userStatusRef, true);
-                onDisconnect(userStatusRef).remove()
-                    .then(() => { if (user) deleteUser(user) });
+                const onlineRef = ref(rtdb, `status/online/${uid}`);
+                onDisconnect(onlineRef).remove();
+            } else {
+                remove(ref(rtdb, `status/online/${uid}`));
             }
-
-        };
-
-
-        if (user) isUserOnline(user.displayName);
-
-    }, [user]);
-
+        });
+    }
     useEffect(() => {
-        const onlineUsersRef = ref(rtdb, '/status');
-
-        const fetchOnlineUsers = (snapshot: any) => {
-            const data = snapshot.val();
-            if (data) {
-                const users = Object.keys(data).filter(key => data[key] === true);
-                setOnlineUsers(users);
-            }
-        };
-        onValue(onlineUsersRef, fetchOnlineUsers);
+        isonline();
     }, []);
 
-    return (
-        <>
-            <ul>
-                <h2>접속중인 유저</h2>
-                {onlineUsers.map((user, index) => (
-                    <li key={index}>{user}</li>
-                ))}
-            </ul>
-        </>
+    const connectedRef = ref(rtdb, ".info/connected");
+    onValue(connectedRef, (snap) => {
+        if (snap.val() === true) {
+        } else {
+            remove(ref(rtdb, `status/online/${uid}`));
+        }
+    });
+
+
+
+    return (<>
+    </>
     );
 }

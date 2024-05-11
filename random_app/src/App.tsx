@@ -27,8 +27,8 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
   body{
-
-    background-color: rgba(153, 150, 131, 0.4);
+    
+background-color:#e7e7e7;
   font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 `;

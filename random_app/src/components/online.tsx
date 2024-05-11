@@ -13,9 +13,11 @@ export const Online = () => {
                 set(ref(rtdb, `status/chatting/${uid}`), false)
 
                 const onlineRef = ref(rtdb, `status/online/${uid}`);
+                const chattingRef = ref(rtdb, `status/chatting/${uid}`);
                 onDisconnect(onlineRef).remove();
+                onDisconnect(chattingRef).remove();
             } else {
-                remove(ref(rtdb, `status/online/${uid}`));
+                // remove(ref(rtdb, `status/online/${uid}`));
             }
         });
     }

@@ -2,6 +2,8 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import styles from "./chat.module.scss"
 import { onValue, ref, set } from "firebase/database";
 import { auth, rtdb } from "../../firebase";
+import EmojiPicker from "emoji-picker-react";
+
 
 
 interface ChatMessage {
@@ -13,7 +15,7 @@ export const Chat = () => {
 
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [newMessage, setNewMessage] = useState("");
-
+    const [open, setOpen] = useState<boolean>(false);
 
 
     useEffect(() => {
@@ -40,8 +42,9 @@ export const Chat = () => {
         event.preventDefault();
         const name = auth.currentUser?.displayName;
         const time = Date.now();
+        const uid = auth.currentUser?.uid;
         if (newMessage.trim() !== "") {
-            set(ref(rtdb, `status/chatting/`), true)
+            set(ref(rtdb, `status/chatting/${uid}`), true)
             set(ref(rtdb, `chat/${time}`), {
                 message: newMessage,
                 username: name,
@@ -50,6 +53,10 @@ export const Chat = () => {
         }
     };
 
+    const handleEmoji = (event: any) => {
+        setNewMessage((prev) => prev + event.emoji);
+        setOpen(false);
+    };
 
     return (
         <div className={styles.chat}>
@@ -58,10 +65,15 @@ export const Chat = () => {
                     {messages.map((message, index) => (
                         <div key={index}>
                             <div className={styles.name}>
-                                <h1>{message.username}</h1>
+                                {/* {message.username == auth.currentUser?.displayName ?
+                                    null : <h1>{message.username}</h1>} */}
                             </div>
                             <div className={styles.message}>
-                                <h1>{message.message}</h1>
+                                {message.username == auth.currentUser?.displayName ?
+                                    <h1 className={styles.messageme}>{message.message}</h1>
+                                    :
+                                    <h1>{message.message}</h1>}
+
                             </div>
                         </div>
                     ))}
@@ -73,8 +85,18 @@ export const Chat = () => {
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                 />
-                <button>😁</button>
-                <button>&rarr;</button>
+                <div className={styles.emoji}>
+                    <img
+                        src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Grinning%20Face.png"
+                        alt=""
+                        onClick={() => setOpen((prev) => !prev)}
+                        className={styles.emojiimg}
+                    />
+                    <div className={styles.picker}>
+                        <EmojiPicker open={open} onEmojiClick={handleEmoji} />
+                    </div>
+                </div>
+                <button className={styles.send}>&rarr;</button>
             </form>
         </div>
     )

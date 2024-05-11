@@ -87,11 +87,11 @@ export const Login = () => {
                 <h2 className={styles.text2}>예상할 수 없는 대화</h2>
             </div>
             <form className={styles.setlog} onSubmit={handleLogin}>
-                <input type="text" placeholder="닉넴" value={id} name="id" onChange={onChange} required />
+                <input type="text" placeholder="닉네임을 입력해주세요" value={id} name="id" onChange={onChange} required />
                 {/* <input type="password" placeholder="비ㅁㄹ번호" value={password} name="password" onChange={onChange} required /> */}
                 <button>GO &rarr;</button>
             </form>
-            {isLoading && <p>로그인 중 입니당 ㄱㄷㄱㄷ</p>}
+            {isLoading && <div className={styles.loader}></div>}
             {error && <p className={styles.error}>{error}</p>}
         </div>
     )

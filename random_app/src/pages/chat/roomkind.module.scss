@@ -1,6 +1,6 @@
 %menu {
     &:hover {
-        background-color: tan;
+        background-color: rgb(255, 145, 0);
     }
 
     &:active {
@@ -10,20 +10,22 @@
 
 .room {
     display: flex;
-    gap: 40px;
+    gap: 1vw;
     align-items: end;
     padding-left: 3%;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.172);
+    padding-top: 2%;
+
 
     div {
-        width: 15vh;
-        height: 6vh;
+        width: 14vh;
+        height: 4vh;
         justify-content: center;
         display: flex;
-        padding: 10px;
         margin-top: auto;
-        background-color: rgb(177, 177, 177);
+        background-color: rgb(255, 215, 57);
         border-radius: 10px 10px 0 0;
+        align-items: center;
 
     }
 

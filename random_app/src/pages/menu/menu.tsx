@@ -14,6 +14,9 @@ export const Menu = () => {
     return (
         <div className={styles.menu}>
             <div className={styles.iam}>
+                <div className={styles.mainrandom}>
+                    <h1>랜덤몽</h1>
+                </div>
                 <div className={styles.profile}>
                     <img src={user?.photoURL ?? ""} />
                 </div>
@@ -21,7 +24,7 @@ export const Menu = () => {
                 <button onClick={logout}>로그아웃</button>
             </div>
             <div className={styles.set}>
-                <ul>asdf</ul>
+                <ul>로그아웃하면 다시 돌아올 수 없읍니다~</ul>
                 <ul>asdfadf</ul>
                 <ul>메뉴같은거 ㅇㅇㅇ 뭐뭐뭐</ul>
                 <Online />

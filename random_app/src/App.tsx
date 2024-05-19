@@ -7,6 +7,7 @@ import ProtectedRoute from "./components/protected-route";
 import { RandomChat } from "./pages/chat/random/random";
 import { Welcome } from "./pages/chat/welcome";
 import { Room } from "./pages/chat/room/room";
+import { Globalchat } from "./pages/chat/globalchat";
 import { Chat } from "./pages/chat/chat";
 
 const router = createBrowserRouter([
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
       { path: "", element: <Welcome /> },
       { path: "/random", element: <RandomChat /> },
       { path: "/room", element: <Room /> },
+      { path: "/globalchat", element: <Globalchat /> },
       { path: "/chat", element: <Chat /> },
     ]
   },

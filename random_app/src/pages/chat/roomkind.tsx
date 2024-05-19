@@ -14,7 +14,7 @@ export const Roomkind = () => {
                     <h1>방 찾기</h1>
                 </div>
             </Link>
-            <Link to="/chat" className={styles.link}>
+            <Link to="/globalchat" className={styles.link}>
                 <div className={styles.roomfind}>
                     <h1>ddddddddddd</h1>
                 </div>

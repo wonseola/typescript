@@ -1,4 +1,4 @@
-import { push, ref, set } from "firebase/database";
+import { push, ref } from "firebase/database";
 import { auth, rtdb } from "../../../firebase";
 import { ChangeEvent, FormEvent, useState } from "react";
 import styles from "./createroom.module.scss";

@@ -17,42 +17,32 @@ export const Chatroom = ({ roomname }: { roomname: string }) => {
     const [newMessage, setNewMessage] = useState("");
     const [open, setOpen] = useState<boolean>(false);
 
-    const [newMessageArrival, setNewMessageArrival] = useState<ChatMessage | null>(null);
 
     useEffect(() => {
         const chatRef = ref(rtdb, `/chat/${roomname}`);
-        onValue(chatRef, (snapshot) => {
+
+        const unsubscribe = onValue(chatRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
                 const messageList = Object.values(data) as ChatMessage[];
                 setMessages(messageList);
+            } else {
+                setMessages([]);
             }
         });
 
-
+        return () => unsubscribe();
     }, [roomname]);
 
 
 
     const endRef = useRef<HTMLDivElement>(null);
-
-
-
     useEffect(() => {
         if (endRef.current) {
             endRef.current.scrollTop = endRef.current.scrollHeight;
         }
     }, [messages]);
 
-
-    useEffect(() => {
-        // newMessageArrival가 null이 아닌 경우에만 메시지를 추가
-        if (newMessageArrival) {
-            setMessages((prevMessages) => [...prevMessages, newMessageArrival]);
-            // 새 메시지를 처리한 후 newMessageArrival을 다시 null로 설정
-            setNewMessageArrival(null);
-        }
-    }, [newMessageArrival]);
 
 
     const sendMessage = (event: FormEvent<HTMLFormElement>) => {
